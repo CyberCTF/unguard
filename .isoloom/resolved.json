@@ -1,0 +1,133 @@
+{
+  "generated_by_isoloom": "from isoloom.yml; don't edit: change the spec and run `isoloom generate` (`isoloom check` fails when this file is out of date)",
+  "resolved_version": 1,
+  "name": "unguard",
+  "instance": null,
+  "inputs": [],
+  "networks": {
+    "lab": {
+      "cidr": "10.60.124.0/24",
+      "docker_cidr": "10.60.124.0/24",
+      "internet": true,
+      "gateway": null,
+      "gateway_address": "10.60.124.1",
+      "router": null,
+      "controller": "10.60.124.253"
+    }
+  },
+  "reach": [],
+  "machines": {
+    "unguard": {
+      "access": false,
+      "supplied": false,
+      "shapes": [
+        "vm"
+      ],
+      "arch": "amd64",
+      "os": "ubuntu-24.04",
+      "windows": false,
+      "addresses": {
+        "lab": "10.60.124.10"
+      },
+      "docker_addresses": {
+        "lab": "10.60.124.10"
+      },
+      "services": [
+        {
+          "port": 22,
+          "name": "ssh",
+          "http": false,
+          "publish": null
+        },
+        {
+          "port": 8080,
+          "name": "web",
+          "http": true,
+          "publish": null
+        },
+        {
+          "port": 8081,
+          "name": "health",
+          "http": true,
+          "publish": null
+        }
+      ],
+      "depends_on": [],
+      "inputs": [],
+      "volumes": {},
+      "resources": {
+        "cpus": 4,
+        "memory_mb": 6144,
+        "disk_gb": 40
+      },
+      "gateway_of": [],
+      "routes": [],
+      "default_gateway": null,
+      "offline": false
+    }
+  },
+  "start_order": [
+    "unguard"
+  ],
+  "clones": {},
+  "tools": {},
+  "groups": {},
+  "router": null,
+  "controller": {
+    "addresses": {
+      "lab": "10.60.124.253"
+    }
+  },
+  "published": [],
+  "targets": {
+    "possible": [
+      "vagrant",
+      "proxmox",
+      "cloud-vm"
+    ],
+    "generated": [
+      "vagrant",
+      "proxmox",
+      "cloud-vm"
+    ],
+    "refused": {},
+    "not_possible": {
+      "docker": "needs `docker:` on unguard",
+      "hosted": "needs `docker:` on unguard",
+      "docker-vm": "needs `docker:` on unguard",
+      "cloud-docker": "needs `docker:` on unguard",
+      "kubernetes": "needs `docker:` on unguard",
+      "hybrid": "only when some machines are containers and others are VMs",
+      "external": "needs `external:` on unguard"
+    }
+  },
+  "checks": {
+    "default_position": "networks",
+    "positions": [
+      {
+        "position": "networks",
+        "machine": null,
+        "runner": "isoloom-check",
+        "checks": [
+          {
+            "name": "the app answers",
+            "derived": false,
+            "kind": "http",
+            "target": "http://unguard:8080/ui",
+            "expect": "200",
+            "wait": 600
+          },
+          {
+            "name": "checks/unguard.sh",
+            "derived": false,
+            "kind": "script",
+            "target": "checks/unguard.sh",
+            "expect": "",
+            "wait": 0
+          }
+        ]
+      }
+    ]
+  },
+  "message": "Unguard is up at http://10.60.124.10:8080/ui. Register a user and look\naround: the services behind the frontend are the targets. The cluster is part of the lab\n(`isoloom connect vagrant unguard` gives a shell with kubectl). Upstream's exploit toolkit\n(unguard/exploit-toolkit/) shows one way through each vulnerability.\n"
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Unguard",
+  "description": "Dynatrace's insecure cloud-native microservices app, a Twitter clone of about a dozen services in Java, .NET, Go, PHP, Python and Node.js on Kubernetes, with SSRF, command and SQL injection, JWT key confusion, insecure deserialization and over-privileged service accounts.",
+  "question": "Exploit Unguard's services and reach the Kubernetes cluster behind them.",
+  "category": "WEB",
+  "difficulty": 3,
+  "evidence_kind": "SECRET",
+  "capabilities": ["server-side-request-forgery", "sql-injection", "command-injection", "jwt-attacks", "insecure-deserialization", "kubernetes-security"]
+}

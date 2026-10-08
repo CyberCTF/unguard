@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://www.isoloom.com/schema/v1.json
+# Unguard (by Dynatrace): an insecure cloud-native microservices app, a Twitter clone of about a
+# dozen services in Java, .NET, Go, PHP, Python and Node.js, with SSRF, command and SQL
+# injection, JWT key confusion, insecure deserialization and Kubernetes misconfigurations.
+# Source: https://github.com/dynatrace-oss/unguard, vendored in unguard/. Unguard is built for
+# Kubernetes (its status service reads the cluster's API): one VM runs single-node k3s
+# (provision/k3s.sh), and upstream's Helm chart is installed on it (provision/unguard.sh).
+# VM targets only. `isoloom run vagrant`, then `isoloom test vagrant`.
+version: 1
+name: unguard
+
+networks:
+  lab: { cidr: 10.60.124.0/24 }
+
+machines:
+  unguard:
+    networks: { lab: 10 }
+    services:
+      - { port: 22, name: ssh }
+      - { port: 8080, name: web, http: true }
+      - { port: 8081, name: health, http: true }
+    resources: { cpus: 4, memory_mb: 6144, disk_gb: 40 }
+    vm:
+      os: ubuntu-24.04
+      provision: [provision/k3s.sh, provision/unguard.sh]
+
+checks:
+  - { name: the app answers, http: "http://unguard:8080/ui", wait: 600 }
+  - checks/unguard.sh
+
+message: |
+  Unguard is up at http://{{ machines.unguard.addresses.lab }}:8080/ui. Register a user and look
+  around: the services behind the frontend are the targets. The cluster is part of the lab
+  (`isoloom connect vagrant unguard` gives a shell with kubectl). Upstream's exploit toolkit
+  (unguard/exploit-toolkit/) shows one way through each vulnerability.
