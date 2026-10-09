@@ -98,7 +98,8 @@
       "cloud-docker": "needs `docker:` on unguard",
       "kubernetes": "needs `docker:` on unguard",
       "hybrid": "only when some machines are containers and others are VMs",
-      "external": "needs `external:` on unguard"
+      "external": "needs `external:` on unguard",
+      "cloud-services": "left out by `targets:`"
     }
   },
   "checks": {
