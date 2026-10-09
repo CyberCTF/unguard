@@ -4,6 +4,5 @@
   "question": "Exploit Unguard's services and reach the Kubernetes cluster behind them.",
   "category": "WEB",
   "difficulty": 3,
-  "evidence_kind": "SECRET",
-  "capabilities": ["server-side-request-forgery", "sql-injection", "command-injection", "jwt-attacks", "insecure-deserialization", "kubernetes-security"]
+  "evidence_kind": "SECRET"
 }
